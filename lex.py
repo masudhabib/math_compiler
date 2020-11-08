@@ -5,7 +5,8 @@ class Lex():
         self.lex = LexerGenerator()
 
     def _add_tokens(self):
-
+        # Print
+        self.lex.add('PRINT', r'print')
         # Parenthesis
         self.lex.add('LEFT_PAREN', r'\(')
         self.lex.add('RIGHT_PAREN', r'\)')
