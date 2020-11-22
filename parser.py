@@ -1,45 +1,54 @@
 
 from rply import ParserGenerator
-from ast import Number, Sum, Sub, Print
-
+from ast import *
 
 class Parser():
+    # Provide list of tokens acceptable for the parser.
+    # Also define precedence of operators and evaluate expression from left to right.
     def __init__(self):
-        self.pg = ParserGenerator(
+        self.parseGen = ParserGenerator(
             # A list of all token names accepted by the parser.
             ['NUMBER', 'PRINT', 'LEFT_PAREN', 'RIGHT_PAREN',
-             'EOL', 'SUM', 'SUB', 'MUL', 'DIV']
+             'EOL', 'SUM', 'SUB', 'MUL', 'DIV'],
+            precedence=[
+                ('left', ['SUM', 'SUB']),
+                ('left', ['MUL', 'DIV'])
+            ]
         )
 
     def parse(self):
-        @self.pg.production('program : PRINT LEFT_PAREN expression RIGHT_PAREN EOL')
-        def program(p):
-            return Print(p[2])
+        # Defining the input expression grammar using decorator method production
+        @self.parseGen.production('INPUT : PRINT LEFT_PAREN expression RIGHT_PAREN EOL')
+        def program(exp):
+            return Print(exp[2])
 
-        @self.pg.production('expression : expression SUM expression')
-        @self.pg.production('expression : expression SUB expression')
-        @self.pg.production('expression : expression MUL expression')
-        @self.pg.production('expression : expression DIV expression')
-        def expression(p):
-            left = p[0]
-            right = p[2]
-            operator = p[1]
+        @self.parseGen.production('expression : expression SUM expression')
+        @self.parseGen.production('expression : expression SUB expression')
+        @self.parseGen.production('expression : expression MUL expression')
+        @self.parseGen.production('expression : expression DIV expression')
+        def expression(exp):
+            left = exp[0]
+            right = exp[2]
+            operator = exp[1]
             if operator.gettokentype() == 'SUM':
                 return Sum(left, right)
             elif operator.gettokentype() == 'SUB':
                 return Sub(left, right)
-            # elif operator.gettokentype() == 'MUL':
-            #     return Mul(left, right)
-            # elif operator.gettokentype() == 'DIV':
-            #     return Div(left, right)
+            elif operator.gettokentype() == 'MUL':
+                return Mul(left, right)
+            elif operator.gettokentype() == 'DIV':
+                return Div(left, right)
 
-        @self.pg.production('expression : NUMBER')
-        def number(p):
-            return Number(p[0].value)
 
-        @self.pg.error
+        @self.parseGen.production('expression : NUMBER')
+        def number(exp):
+            return Number(exp[0].value)
+
+        @self.parseGen.error
         def error_handle(token):
-            raise ValueError(token)
+            raise ValueError("Ran into a %s where it wasn't expected" % token.gettokentype())
+
+
 
     def get_parser(self):
-        return self.pg.build()
+        return self.parseGen.build()
