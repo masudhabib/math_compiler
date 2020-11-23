@@ -1,7 +1,14 @@
 # math_compiler
+
+Toy compiler to perform mathematical calculations like addition, subtraction, multiplication and division.
+The code uses RPLY python package to implement lexer and Parser using LexerGenerator and ParserGenerator modules.
+Parsing also follows precedence rule defined by BODMAS and does not have any limitations on number of operands and digits in the operands.
+EBNF is used to define the grammar.
+
 The code is divided in 3 modules. Each module contains Parser, Lexer and AST tree builder.
-Run the program by executing Maon.py
-Input follows the grammer "PRINT LEFT_PAREN expression RIGHT_PAREN EOL"
+Run the program by executing Main.py
+Input follows the grammer "PRINT LEFT_PAREN expression RIGHT_PAREN EOL" and format should be followed.
+
 Examples to execute: 
 print(45+22-9);
 print(4*2-1);
