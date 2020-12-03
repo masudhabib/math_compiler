@@ -9,7 +9,7 @@ EBNF is used to define the grammar.
 
 ## Compiling from source code
 
-### Pre-requisites for build.run
+### Pre-requisites for build/run
 - Any OS with Python 2 interpreter
 - Python IDE (Pycharm)
 
