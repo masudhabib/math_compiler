@@ -19,7 +19,6 @@ EBNF is used to define the grammar.
 - Provide the input in following format:
 Input follows the grammer "PRINT LEFT_PAREN expression RIGHT_PAREN EOL" and format should be followed.
  * ```print(45+22-9);```
- * ```print(45+22-9);```
  * ```print(4*2-1);```
  * ```print(2*8/4);```
  * ```print(6/3*2+12);```
